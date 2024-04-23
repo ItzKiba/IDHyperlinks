@@ -159,6 +159,57 @@ class $modify(MyTextArea, TextArea) {
 	}
 };
 
+#include <Geode/modify/GJMessagePopup.hpp>
+class $modify(MyMessagePopup, GJMessagePopup) {
+	std::vector<int> m_idList;
+	void loadFromGJMessage(GJUserMessage* p0) {
+		GJMessagePopup::loadFromGJMessage(p0);
+
+		// find text label
+		CCLabelBMFont* label = nullptr;
+		CCObject* obj;
+		auto parentLayer = this->m_mainLayer;
+		CCARRAY_FOREACH(parentLayer->getChildren(), obj) {
+			auto test = typeinfo_cast<CCLabelBMFont*>(obj);
+			if (test != nullptr && test->getPositionY() == 264) {
+				label = test;
+				break;
+			}
+		}
+
+		if (label == nullptr) {
+			return;
+		}
+
+		std::vector<int> idList = this->m_fields->m_idList;
+		std::string newMessageString;
+
+		fillIDList(idList, label->getString(), newMessageString);
+		if (idList.size() == 0) {
+			return;
+		}
+
+		auto pos = label->getPosition();
+		auto menu = CCMenu::create();
+		menu->setPosition(pos);
+		parentLayer->addChild(menu);
+
+		auto btnSprite = CCLabelBMFont::create(label->getString(), "bigFont.fnt");
+		btnSprite->setColor({0, 255, 0});
+		btnSprite->setScale(0.6);
+
+		auto btn = CCMenuItemSpriteExtra::create(btnSprite, this, menu_selector(MyTextArea::onBtn));
+		btn->setUserObject(new BtnParameters(idList));
+		label->setVisible(false);
+
+		menu->setAnchorPoint({0.5, 0.5});
+		menu->addChild(btn);
+
+		handleTouchPriority(this);
+
+	}
+};
+
 /*
 The entire purpose of this hook is to fix a bug by resetting the touch priority
 of the GJMessagePopup layer
@@ -171,8 +222,10 @@ class $modify(MyLayer, CCLayer) {
 		if (popup == nullptr) {
 			return;
 		}
-
+	
 		handleTouchPriority(popup);
 
 	}
 };
+
+
