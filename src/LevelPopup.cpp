@@ -38,6 +38,9 @@ bool LevelPopup::init(std::vector<int> idlist) {
     m_mainLayer->addChildAtPosition(scale9, Anchor::Center, {0, -4});
     m_mainLayer->addChildAtPosition(textarea2, Anchor::Center, {0, -4});
 
+    auto menu = CCMenu::create();
+
+    #ifdef GEODE_IS_WINDOWS
     auto copyBtnSpr = ButtonSprite::create("Copy");
     auto copyBtn = CCMenuItemExt::createSpriteExtra(copyBtnSpr, [idlabel, count](auto){
         // google
@@ -54,20 +57,21 @@ bool LevelPopup::init(std::vector<int> idlist) {
             Notification::create(fmt::format("Copied ID{} to clipboard", count == 1 ? "" : "s"), CCSprite::createWithSpriteFrameName("GJ_completesIcon_001.png"))->show();
         }
 	});
+    menu->addChild(copyBtn);
+    #endif
+
     auto openBtnSpr = ButtonSprite::create("Search");
     auto openBtn = CCMenuItemExt::createSpriteExtra(openBtnSpr, [idlist](auto){
 		auto searchObj = Utils::getSearchObj(idlist);
 		auto scene = LevelBrowserLayer::scene(searchObj);
 		CCDirector::sharedDirector()->pushScene(scene);
 	});
-	auto menu = CCMenu::create();
 	menu->setContentSize({300, 0});
     menu->setLayout(
         RowLayout::create()
             ->setGap(40.f)
             ->setAxisAlignment(AxisAlignment::Center)
     );
-    menu->addChild(copyBtn);
     menu->addChild(openBtn);
     menu->updateLayout();
     m_mainLayer->addChildAtPosition(menu, Anchor::Bottom, {0, 25});
