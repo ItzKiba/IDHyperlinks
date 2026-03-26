@@ -1,0 +1,27 @@
+{
+	"geode": "5.4.1",
+	"gd": {
+		"win": "2.2081",
+		"android": "2.2081",
+		"mac": "2.2081",
+		"ios": "2.2081"
+	},
+	"id": "itzkiba.id_hyperlinks",
+	"name": "ID Hyperlinks",
+	"version": "v1.0.0",
+	"developer": "ItzKiba",
+	"description": "Allows you to open level IDs from GD messages and friend requests",
+	"dependencies": {
+		"geode.node-ids": ">=v1.20.0"
+	},
+	"settings": {
+		"min-digits": {
+            "name": "Minimum Digits",
+            "description": "Minimum number of consecutive digits before the mod detects a valid ID",
+            "type": "int",
+            "default": 7,
+			"min": 3,
+			"max": 9
+		}
+	}
+}
