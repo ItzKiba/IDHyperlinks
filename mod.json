@@ -8,7 +8,7 @@
 	},
 	"id": "itzkiba.id_hyperlinks",
 	"name": "ID Hyperlinks",
-	"version": "v1.0.0",
+	"version": "v1.1.1",
 	"developer": "ItzKiba",
 	"description": "Allows you to open level IDs from GD messages and friend requests",
 	"dependencies": {
