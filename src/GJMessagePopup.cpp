@@ -9,7 +9,9 @@ class $modify(mGJMessagePopup, GJMessagePopup) {
 	void loadFromGJMessage(GJUserMessage* p0) {
 		GJMessagePopup::loadFromGJMessage(p0);
 
-        std::string str = p0->m_content.c_str();
+        std::string content = p0->m_content.c_str();
+        std::string title = p0->m_title;
+        std::string str = content + " " + title;
         std::vector<int> idlist = Utils::getIDList(str);
         if (idlist.size() == 0) return;
 		
